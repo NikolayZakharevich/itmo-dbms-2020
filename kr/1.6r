@@ -1,0 +1,9 @@
+pi {SessionId} (
+  pi{SessionId, ContestId} (Sessions)
+  diff
+  pi {SessionId, ContestId} (
+    pi{SessionId} (Sessions) × pi {Letter, ContestId} (Problems)
+    diff
+    pi{SessionId, Letter, ContestId} (Sessions ⋈ Runs)
+  )
+)

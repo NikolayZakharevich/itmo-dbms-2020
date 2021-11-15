@@ -1,0 +1,9 @@
+pi {StudentName, CourseName} (
+  (
+    pi{StudentId, CourseId} (Students ⋈ Plan)
+    diff
+    pi{StudentId, CourseId} (
+      sigma{Mark = 4 || Mark = 5} (Students ⋈ Marks)
+    )
+  ) ⋈ Students ⋈ Courses
+ )

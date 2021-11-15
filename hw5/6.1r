@@ -1,0 +1,3 @@
+pi{StudentId} (
+  sigma{LecturerName=:LecturerName} (Students ⋈ Marks ⋈ Plan ⋈ Lecturers)
+)

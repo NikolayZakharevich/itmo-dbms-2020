@@ -1,0 +1,3 @@
+START TRANSACTION ISOLATION LEVEL READ COMMITED
+
+Пишущая транзация, поэтому уровень READ UNCOMMITED недопустим, аномалии уровня READ COMMITED и выше же допустимы

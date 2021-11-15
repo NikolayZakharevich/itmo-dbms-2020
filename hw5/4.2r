@@ -1,0 +1,7 @@
+pi{StudentId, StudentName, GroupId} (
+  sigma{CourseName = :CourseName} (Students ⋈ Plan ⋈ Courses)
+)
+diff
+pi{StudentId, StudentName, GroupId} (
+  sigma{CourseName = :CourseName} (Students ⋈ Marks ⋈ Courses)
+)

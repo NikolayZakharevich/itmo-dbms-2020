@@ -1,0 +1,15 @@
+StudentsPassed(CourseId, StudentId) :-
+  Marks(StudentId, CourseId, Mark),
+  Mark >= 3.
+StudentGroups(StudentId, GroupId) :- Students(StudentId, _, GroupId).
+QjoinS(CourseId, StudentId, GroupId) :-
+  StudentsPassed(CourseId, StudentId),
+  Groups(GroupId, _).
+NotOnly(CourseId, GroupId) :-
+  Courses(CourseId, _),
+  StudentGroups(StudentId, GroupId),
+  not QjoinS(CourseId, StudentId, GroupId).
+r(GroupId, CourseId) :-
+  Courses(CourseId, _),
+  Groups(GroupId, _),
+  not NotOnly(CourseId, GroupId).

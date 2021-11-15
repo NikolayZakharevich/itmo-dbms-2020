@@ -1,0 +1,5 @@
+TeamsWithTask(TeamId) :-
+    Sessions(SessionId, TeamId, ContestId, _),
+    Runs(_, SessionId, _, _, Accepted),
+    ContestId = :ContestId,
+    Accepted = 1.

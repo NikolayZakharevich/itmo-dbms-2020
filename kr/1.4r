@@ -1,0 +1,9 @@
+pi {TeamName} (
+  (
+    pi {TeamId} (Teams) × pi {ContestId} (Contests)
+    diff
+    pi {TeamId, ContestId} (
+      (sigma {Accepted = 1} (Runs)) ⋈ Sessions
+    )
+  )   ⋈ Teams
+)

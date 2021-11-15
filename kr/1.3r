@@ -1,0 +1,13 @@
+pi{TeamName} (
+  (
+    pi{TeamId}(Teams)
+    diff
+    pi{TeamId} (
+      (
+        pi {SessionId} (
+          sigma{Accepted = 1} (Runs)
+        )
+      ) ⋈ Sessions
+    )
+  ) ⋈ Teams
+)

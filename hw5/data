@@ -1,0 +1,59 @@
+Имеющих хотя бы одну оценку у преподавателя;
+Не имеющих ни одной оценки у преподавателя;
+Имеющих оценки по всем предметам преподавателя;
+Имеющих оценки по всем предметам преподавателя, которые он вёл у этого студента;
+Группы и предметы, такие что все студенты группы сдали предмет.
+Идентификаторы;
+Названия;
+
+data Students
+    StudentId, StudentName, GroupId
+
+data Groups
+    GroupId, GroupName
+
+data Courses
+    CourseId, CourseName
+
+data Lecturers
+    LecturerId, LecturerName
+
+data Plan
+    GroupId, CourseId, LecturerId
+
+data Marks
+    StudentId, CourseId, Mark
+
+
+select StudentId
+from (
+         with Q as (select distinct StudentId, CourseId from Marks),
+              S as (
+                  select distinct CourseId, GroupId
+                  from Lecturers
+                           natural join Plan
+                  where LecturerName = :LecturerName
+              ),
+              piXQ as (select distinct StudentId from Q),
+              piZS as (select distinct GroupId from S),
+              lhs as (select distinct StudentId, GroupId
+                      from piXQ
+                               cross join piZS),
+              rhs as (
+                  select distinct StudentId, GroupId
+                  from (select distinct StudentId, CourseId, GroupId
+                        from piXQ
+                                 cross join S
+                            except
+                        select distinct StudentId, CourseId, GroupId
+                        from Q
+                                 natural join S
+                       ) t1
+              )
+         select distinct StudentId, GroupId GroupId1
+         from lhs except
+         select distinct StudentId, GroupId GroupId1
+         from rhs
+     ) t
+         natural join Students
+where GroupId1 = GroupId

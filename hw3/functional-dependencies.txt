@@ -1,0 +1,123 @@
+1. Функциональные зависимости *
+Функциональные зависимости должны быть заданы по одной на строке в формате «A, B -> D, E». Названия атрибутов должны быть как в условии ДЗ.
+----------------------------------------------------------
+
+Судя по названию, атрибут StudentId является уникальным идентификатором для каждого студента, а у каждого студента
+известно его имя и группа, в которой он обучается
+StudentId -> StudentName, GroupId (ФЗ1)
+
+Аналогично с GroupId — идентификатор группы, каждая группа имеет название
+GroupId -> GroupName (ФЗ2)
+
+Курс по предмету имеет название
+CourseId -> CourseName (ФЗ3)
+
+У лектора известно имя
+LecturerId -> LecturerName (ФЗ4)
+
+Лектор читает курс для конкретной группы. Так как у одной группы может быть несколько курсов с разными лекторами, а
+один и тот же курс разным группам может читаться разными лекторами, то зависимость устанавливается только от обоих
+атрибутов одновременно
+GroupId, CourseId -> LecturerId (ФЗ5)
+
+Студент получает оценку за курс по предмету. У одного студента может быть много оценок за разные курсы, за один курс
+оценки получают разные студенты, поэтому зависимость от от обоих атрибутов одновременно
+StudentId, CourseId -> Mark (ФЗ6)
+
+----------------------------------------------------------
+2.1. Процесс определения ключей *
+Текст в свободной форме
+
+Утверждение: если атрибут Х не встречается в правых частях нетривиальных ФЗ, то любой ключ содержит Х
+Доказательство:
+Воспользуемся следующим свойством: все атрибуты функционально зависят от надключа. Но так как Х не встречается в правых
+частях нетривиальных ФЗ, то он должен встречаться только в правых частях тривиальных ФЗ, то есть во всех этих ФЗ Х
+будет находится и в левой части, следовательно, любой ключ будет его содержать.
+
+Воспользуемся утверждением: StudentId и CourseId не встречаются в правых частях (1)-(5), значит любой ключ будет
+их содержать. Для множества K = {StudentId, CourseId} последовательно применив ФЗ1 - ФЗ6 вычислим замыкание K^+_S:
+1. K^+_S = {StudentId, CourseId}
+2. K^+_S = {StudentId, CourseId, StudentName, GroupId} (ФЗ1)
+3. K^+_S = {StudentId, CourseId, StudentName, GroupId, GroupName} (ФЗ2)
+4. K^+_S = {StudentId, CourseId, StudentName, GroupId, GroupName, CourseName} (ФЗ3)
+5. K^+_S = {StudentId, CourseId, StudentName, GroupId, GroupName, CourseName, LecturerName} (ФЗ4)
+6. K^+_S = {StudentId, CourseId, StudentName, GroupId, GroupName, CourseName, LecturerName, LecturerId} (ФЗ5)
+6. K^+_S = {StudentId, CourseId, StudentName, GroupId, GroupName, CourseName, LecturerName, LecturerId, Mark} (ФЗ6)
+
+В замыкание K^+_S вошли все атрибуты, следовательно, K = {StudentId, CourseId} — надключ. Однако StudentId и CourseId
+должны содержаться в любом другом надключе, следовательно K - минимальный по включению надключ, то есть ключ, при чём
+единственный
+
+
+GroupId, CourseId
+GroupId, CourseId, GroupName (ФЗ2)
+GroupId, CourseId, GroupName, CourseName (ФЗ3)
+GroupId, CourseId, GroupName, CourseName, LecturerId (ФЗ5)
+GroupId, CourseId, GroupName, CourseName, LecturerId, LecturerName (ФЗ4)
+
+
+StudentId, CourseId
+StudentId, CourseId, StudentName, GroupId (ФЗ1)
+StudentId, CourseId, StudentName, GroupId, GroupName (ФЗ2)
+StudentId, CourseId, StudentName, GroupId, GroupName, CourseName (ФЗ3)
+StudentId, CourseId, StudentName, GroupId, GroupName, CourseName, LecturerName (ФЗ4)
+StudentId, CourseId, StudentName, GroupId, GroupName, CourseName, LecturerName, LecturerId (ФЗ5)
+StudentId, CourseId, StudentName, GroupId, GroupName, CourseName, LecturerName, LecturerId, Mark (ФЗ6)
+
+StudentId, LecturerId
+StudentId, LecturerId, StudentName, GroupId (ФЗ1)
+StudentId, LecturerId, StudentName, GroupId, GroupName (ФЗ2)
+StudentId, LecturerId, StudentName, GroupId, GroupName, LecturerName (ФЗ4)
+
+
+StudentId -> StudentName
+StudentId -> GroupId
+GroupId -> GroupName
+CourseId -> CourseName
+LecturerId -> LecturerName
+GroupId, CourseId -> LecturerId
+StudentId, CourseId -> Mark
+
+Попытаемся минимизировать левую часть в (ФЗ5):
+1) Попытаемся исключить GroupId
+Для этого посчитаем замыкание A1^+_S множества A1 = {CourseId}
+1. A1^+_S = {CourseId}
+2. A1^+_S = {CourseId, CourseName} (ФЗ3)
+LecturerId не входит в A1^+_S, следовательно, исключить GroupId не удастся
+2) Попытаемся исключить CourseId
+Посчитаем замыкание A2^+_S множества A2 = {GroupId}
+1. A2^+_S = {GroupId}
+2. A2^+_S = {GroupId, GroupName} (ФЗ2)
+LecturerId не входит в A2^+_S, следовательно, исключить CourseId не удастся
+Ни GroupId, ни CourseId исключить из (ФЗ5) не удалось, минимизация левой части (ФЗ5) невозможна
+
+Попытаемся минимизировать левую часть в (ФЗ6):
+1) Попытаемся исключить StudentId
+Для множества {CourseId} замыкание уже известно — это {CourseId, CourseName}, Mark туда не входит, исключить StudentId
+не удалось
+2) Попытаемся исключить CourseId
+Посчитаем замыкание A3^+_S множества A3 = {StudentId}
+1. A3^+_S = {StudentId}
+2. A3^+_S = {StudentId, StudentName, GroupId} (ФЗ1)
+3. A3^+_S = {StudentId, StudentName, GroupId, GroupName} (ФЗ2)
+Mark в A3^+_S, следовательно, исключить CourseId не удастся.
+Ни StudentId, ни CourseId исключить из (ФЗ6) не удалось, минимизация левой части (ФЗ6) невозможна
+
+
+Последовательно попробуем исключить каждую ФЗ из списка, полученного в предыдущем пункте. Будем считать замыкание левой
+части на множестве всех ФЗ списка, кроме текущей.
+
+StudentId -> StudentName
+StudentId -> GroupId
+GroupId -> GroupName
+CourseId -> CourseName
+LecturerId -> LecturerName
+GroupId, CourseId -> LecturerId
+StudentId, CourseId -> Mark
+1. ФЗ: StudentId -> StudentName, замыкание левой части: {GroupId, GroupName}. Не содержит StudentName
+2. ФЗ: StudentId -> GroupId, замыкание левой части: {StudentName}. Не содержит GroupId
+3. ФЗ: GroupId -> GroupName, замыкание левой части: {}. Не содержит GroupName
+4. ФЗ: CourseId -> CourseName, замыкание левой части: {}. Не содержит CourseName
+5. ФЗ: LecturerId -> LecturerName, LecturerName достижим только из данной ФЗ, нельзя исключать
+6. ФЗ: GroupId, CourseId -> LecturerId, замыкание левой части: {GroupName, CourseName}. Не содержит LecturerId
+7. ФЗ: StudentId, CourseId -> Mark. Mark достижим только из данной ФЗ, нельзя исключать

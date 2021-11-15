@@ -1,0 +1,3 @@
+pi{StudentId, StudentName, GroupName} (
+    sigma{StudentName = :StudentName}(Students ⋈ Groups)
+)

@@ -1,0 +1,54 @@
+Исходное множество ФЗ:
+StudentId -> StudentName, GroupId
+GroupId -> GroupName
+CourseId -> CourseName
+LecturerId -> LecturerName
+StudentId, CourseId -> Mark
+GroupId, CourseId -> LecturerId, LecturerName
+GroupName -> GroupId
+
+
+Отношение уже находится в 1НФ, так как в нём:
+1) Нет повторяющихся групп
+2) Все атрибуты атомарны
+3) Есть ключ (StudentId, CourseId)
+
+(StudentId, StudentName, GroupId, GroupName, CourseId, CourseName, LecturerId, LecturerName) => (StudentId, StudentName, GroupId, GroupName, CourseId, CourseName, LecturerId, LecturerName)
+
+
+Находится во 2НФ
+1НФ
+Неключевые атрибуты функционально зависят от ключа в целом (не от части ключа)
+Неключевой атрибут – не входящий в ключ
+
+
+(CourseId, CourseName)
+(StudentId, StudentName, GroupId, GroupName, CourseId, LecturerId, LecturerName)
+
+(CourseId, CourseName)
+(GroupId, GroupName)
+(StudentId, StudentName, GroupId, CourseId, LecturerId, LecturerName)
+
+StudentId -> StudentName, GroupId
+LecturerId -> LecturerName
+StudentId, CourseId -> Mark
+GroupId, CourseId -> LecturerId, LecturerName
+
+(CourseId, CourseName)
+(GroupId, GroupName)
+(StudentId, StudentName, GroupId)
+(StudentId, GroupId, CourseId, LecturerId, LecturerName)
+
+
+(StudentId, GroupId, CourseId, LecturerId, LecturerName)
+
+
+CourseId, CourseName
+GroupId, CourseId, LecturerId, LecturerName
+GroupId, GroupName
+StudentId, GroupId, StudentName
+StudentId, CourseId, Mark
+
+
+(StudentId, StudentName, GroupId, GroupName, CourseId, CourseName, LecturerId, LecturerName) => (CourseId, CourseName) ; (GroupId, GroupName) ; (StudentId, StudentName, GroupId) ; (GroupId, CourseId, LecturerId, LecturerName) ; (StudentId, CourseId, Mark) ;
+

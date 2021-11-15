@@ -1,0 +1,13 @@
+pi{StudentId} (
+  sigma{GroupId1=GroupId} (
+    rho{GroupId1=GroupId} (
+      pi{StudentId, GroupId} (
+        pi{StudentId, CourseId} (Marks)
+        gdiv
+        pi{CourseId, GroupId} (
+          sigma{LecturerName=:LecturerName} (Lecturers ⋈ Plan)
+        )
+      )
+    ) ⋈ Students
+  )
+)

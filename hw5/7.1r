@@ -1,0 +1,5 @@
+pi{GroupId, CourseId} (
+	pi{CourseId, StudentId} (sigma{Mark >= 3} (Students ⋈ Marks))
+  gdiv
+	pi{StudentId, GroupId} (Students)
+)
